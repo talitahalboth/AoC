@@ -30,13 +30,11 @@ int32_t main()
 {
     int n;
     cin >> n;
-    int maxi = 0;
     for (int i = 0; i < n/2; i++)
     {
         int seed, rangeSize;
         cin >> seed >> rangeSize;
         seeds.push_back({seed, rangeSize});
-        maxi = max(maxi, seed+rangeSize);
     }
 
     //7 maps
@@ -59,10 +57,10 @@ int32_t main()
     }
 
     reverse(rmaps.begin(), rmaps.end());
-
-    for (int i = 0; i <maxi; i++)
+    int i  =0;
+    while(true)
     {
-        int res = findSrc(i) ;
+        int res = findSrc(i++) ;
         int found = 0;
         if (i% 100000 == 0) cout  << "-----" << i << endl;
         for (auto seed: seeds)
