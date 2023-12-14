@@ -9,25 +9,7 @@
 using namespace std;
 
 vector<pair<int,int>> seeds;
-vector<map<int, int>> maps;
 vector<map<int, int>> rmaps;
-
-int findDst (int src)
-{
-    for (map<int,int> m: maps)
-    {
-        int dst;
-        auto iter = m.upper_bound(src);
-        if (iter == m.begin())
-            dst = src;
-        else {
-            dst =  (--iter)->second + src ;
-        }
-        src=dst;
-    }
-    return src;
-}
-
 int findSrc(int src)
 {
     for (map<int,int> m: rmaps)
@@ -42,72 +24,57 @@ int findSrc(int src)
         src=dst;
     }
     return src;
-
 }
 
 int32_t main()
 {
     int n;
     cin >> n;
+    int maxi = 0;
     for (int i = 0; i < n/2; i++)
     {
         int seed, rangeSize;
         cin >> seed >> rangeSize;
         seeds.push_back({seed, rangeSize});
+        maxi = max(maxi, seed+rangeSize);
     }
 
     //7 maps
     for(int i = 0; i < 7; i++)
     {
-        map<int, int> mapping;
+        map<int, int> rmapping;
         int m;
         cin >> m;
         for (int j = 0; j < m; j++)
         {
             int d,s,l;
             cin >> d >> s >> l;
-            mapping[s] = d - s;
-            mapping[s+l - 1] = d-s ;
-            if (mapping.find(s-1) == mapping.end())
+            rmapping[d]  = s - d;
+            if (rmapping.find(d+l) == rmapping.end())
             {
-                mapping[s-1] = 0;
-            }
-            if (mapping.find(s+l) == mapping.end())
-            {
-                mapping[s+l] = 0;
+                rmapping[d+l] = 0;
             }
         }
-        maps.push_back(mapping);
+        rmaps.push_back(rmapping);
     }
-    for (auto mapp: maps)
+
+    reverse(rmaps.begin(), rmaps.end());
+
+    for (int i = 0; i <maxi; i++)
     {
-        map<int, int> mapping;
-        for (auto [k, v]: mapp)
+        int res = findSrc(i) ;
+        int found = 0;
+        if (i% 100000 == 0) cout  << "-----" << i << endl;
+        for (auto seed: seeds)
         {
-            mapping[v] = k;
-        }
-        rmaps.push_back(mapping);
-    }
-   
-    int min = -1;
-    for (int i = 0; i < seeds.size(); i++)
-    {
-        pair<int, int> src = seeds[i];
-        for(int j = src.first; j < src.first+ src.second; j++)
-        {
-            int res = (findDst(j));
-            if (j%100000 == 0)
+            if (res >= seed.first && res < (seed.first + seed.second))
             {
-                cout << j << " " << res << " " << min << endl;
-
+                cout << i << endl;
+                found = 1;
+                break;
             }
-
-            if (min == -1 || res < min)
-                min = res;
         }
+        if (found) break;
+        
     }
-    cout << min << endl;
-
-
-
 }
