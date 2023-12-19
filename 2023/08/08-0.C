@@ -25,6 +25,7 @@ int32_t main()
         else {
             cur = next;
         }
+        cout << next << endl;
 
         pos++;
         if (pos >= route.size()) pos=0;
