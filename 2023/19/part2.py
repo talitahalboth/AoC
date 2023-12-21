@@ -33,8 +33,8 @@ while (len(workflow) > 0):
             if (dest not in adj):
                 adj[dest] = []
             adj[dest].append([workflowName, ranges.copy()])
-
     workflow = input()
+
 def dfs(node, path, res):
     if node[0] == "in":
         newPath = path.copy()
