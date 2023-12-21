@@ -1,16 +1,42 @@
 #include <iostream>
 #include <vector>
 #include <cstdint>
-#include <map>
+#include <queue>
 #include <algorithm>
-#include <set>
+#include <string>
 
 #define int long long
 using namespace std;
 
 vector<string> v;
-set<int> dists[1321][1321] ;
+int dists[1321][1321] ;
 vector<pair<int,int>> neighbours = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+void bfs(pair<int, int> root)
+{
+    queue<pair<pair<int,int>,int>> q;
+    q.push({root, 0});
+    while(!q.empty())
+    {
+        pair<pair<int,int>,int> front = q.front();
+        pair<int,int> coord = front.first;
+        int d = front.second;
+        q.pop();
+        if (dists[coord.first][coord.second] == -1)
+        {
+            dists[coord.first][coord.second] = d;
+            for(pair<int,int> p: neighbours)
+            {
+                int x = coord.first + p.first;
+                int y = coord.second+ p.second;
+                if (x >= 0 && x < v.size() && y >= 0 && y < v[x].size())
+                {
+                    if (v[x][y] != '#' && dists[x][y] == -1 && (d+1 <= 64)) q.push({{x,y}, d+1});   
+                }
+            }
+        }
+    }
+}
 
 int32_t main()
 {
@@ -18,55 +44,29 @@ int32_t main()
     pair<int,int>start;
     while(cin >> s)
     {
+        for (int i = 0; i < s.size(); i++)
+        {
+            dists[v.size()][i] = -1;
+        }
         v.push_back(s);
         int startLocation = s.find('S');
         if ( startLocation != string::npos)
         {
             start = {v.size() - 1, startLocation};
-            dists[start.first][start.second].insert(0);
         }
     }
-    for (int i = 0; i < 64; i++)
-    {
-        for (int row = 0; row < v.size(); row++)
-        {
-            for (int col = 0; col < v[row].size(); col++)
-            {
-                for(pair<int,int> p: neighbours)
-                {
-                    int x = row + p.first;
-                    int y = col + p.second;
-                    if (x >= 0 && x < v.size() && y >= 0 && y < v[x].size())
-                    {
-                        if (v[x][y] != '#')
-                        {
-                            for(auto a: dists[row][col])
-                            {
-                                dists[x][y].insert(a+1);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+    bfs(start);
     int count = 0;
     for (int i = 0; i < v.size(); i++)
     {
         for (int j = 0; j < v[i].size(); j++)
         {
-            if (dists[i][j].find(64) != dists[i][j].end())
+            if (dists[i][j] >= 0 && dists[i][j]%2 == 0 )
             {
                 count +=1;
-                cout << 'O';
-            }
-            else {
-                cout << v[i][j];
             }
         }
-        cout << endl;
     }
-    cout << endl;
     cout << count << endl;
     
 }

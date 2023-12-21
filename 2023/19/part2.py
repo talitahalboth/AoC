@@ -1,5 +1,3 @@
-import sys
-from functools import reduce
 pos = {'x': 0, 'm': 1, 'a': 2, 's': 3}
 workflow = input()
 adj = {}
@@ -51,7 +49,6 @@ for node in adj['A']:
     dfs(node, [], paths)
 res = 0
 for path in paths:
-    revPath = []
     ranges = path[0][1]
     for elem in path:
         for index, range in enumerate(elem[1]):
