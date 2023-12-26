@@ -36,7 +36,7 @@ int m;
 vector<pii> neighbours = { {-1, 0} , {0, 1}, {1, 0}, {0, -1}};
 int directions[4] = {'n', 'e', 's', 'w'};
 
-void djikstra()
+void dijkstra ()
 {
     priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>> > fila;
 	fila.push({0,0,0,1,0}); //i, j, dist, dir, count
@@ -103,6 +103,6 @@ int32_t main()
         i++;
     }
     n = i;
-    djikstra();
+    dijkstra ();
     return 0;    
 }

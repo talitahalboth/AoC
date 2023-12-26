@@ -17,7 +17,7 @@ Use a pd that stores the position in the row, positiong in the rules list, and n
 
 #### Day 17
 
-Part 1 and 2: djikstra, change the count
+Part 1 and 2: dijkstra , change the count
 
 
 #### Day 18
@@ -72,6 +72,10 @@ Part 1: let each line fall 1 step at a time, until all blocks are either touchin
 For each block (A), check if it supports anotehr block (B). If so, add it to the list of blocks that support it (add A to list of blocks that support B). Check all blocks that have a list of size one, add the block that supports it to a set. Size of the set is how many can't be removed. Print number of blocks - size of set.
 
 Part 2: use list of blocks that support each block. Check for each one if it supports other blocks.
+
+#### Day 24
+
+Part 1: simple dfs with pd to store max paths
 
 #### Day 24
 
