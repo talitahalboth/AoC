@@ -79,7 +79,5 @@ while(len(x) > 3):
     while(t == s):
         t = random.choice(list(graph.keys()))
     x, count = minCut(graph,s,t )
-# for (src,dst) in x:
-#     graph[src][dst]
 count2 = len(graph) - count
 print(count * count2)
